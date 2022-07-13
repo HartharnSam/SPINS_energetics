@@ -1,14 +1,20 @@
+%CHECK_RHOB_HOVMOLLER - Visual inspector for weird things happening in the sorting algorithm. 
+% allows the user to check a hovmoller plot of the background density plot, change in total BPE
+% change in mass
+
 clearvars; close all; clc; 
-%cd('C:\Users\samha\OneDrive - Newcastle University\02_PhD_Project\06_Fission_Bolus\02_Raw_data\Thin_20L_33_220721')
-t1 = 0; t2 = 150;
+t1 = first_output(); t2 = last_output();
 Nt = length(t1:t2);
+params = spins_params;
 
-rhob = NaN(Nt, 256);
+% Pre-allocate arrays 
+rhob = NaN(Nt, params.Nz);
 mass = NaN(Nt, 1); BPE = mass;
-filtname = 'nofilt';
-filtname = 'remfilt';
-filtname = 'filt';
 
+% Choice of filter to apply (uncomment the one you want)
+%filtname = 'nofilt';
+%filtname = 'remfilt';
+filtname = 'filt';
 switch filtname
     case 'nofilt'
         isFilt = false; isRemFilt = false;
@@ -21,35 +27,36 @@ end
 for ii = t1:t2
     [energy, rhob_temp, mass(ii+1)] = sort_energetics(ii, [0 14.5], isFilt, isRemFilt);
     BPE(ii+1) = energy.BPE_Total;
-    rhob(ii+1, :) = rhob_temp(1, :);
+    rhob(ii+1, :) = rhob_temp(1, :); % just take the far tank value (it is the same everywhere, and then truncated by the slope)
 end
 
-%%
-close all; 
+%% Now plot
+close all;
 z = zgrid_reader;
-cd('C:\Users\samha\OneDrive - Newcastle University\02_PhD_Project\07_CanadaMixing\02_Raw_data\HV_fission_order_08_strength_025')
+% Plot the BPE hovmoller
 figure; 
 tiledlayout(4, 1);
 nexttile;
-%subplot(4, 1, 1);
 pcolor(t1:t2, z(1, :), rhob'); shading flat; c = colorbar; ylabel(c, 'rhob');
 axis tight; box on;
-%print(['../../04_Output/01_Sort_Hill/rhob_hovmoller_', filtname, '.png'], '-dpng');
+xlabel('t'); ylabel('z (m)');
 
-%
+% Plot BPE-BPE(1) hovmoller
 nexttile;
-%subplot(4, 1, 2);
 pcolor(t1:t2, z(1, :), (rhob-rhob(1, :))'); shading flat; c = colorbar; ylabel(c, 'rhob-rhob(1)');
 axis tight; newbluewhitered; box on;
-%print(['../../04_Output/01_Sort_Hill/rhob_anom_hovmoller_', filtname, '.png'], '-dpng');
+xlabel('t'); ylabel('z (m)');
 
-%
+% Plot line plot of mass deviation
 nexttile;
-%subplot(4, 1, 3)
 plot(t1:t2, mass/mass(1)*100);
 ylabel('mass(t)/mass(0) (%)')
+xlabel('t');
+
+% Plot line plot of BPE deviation
 nexttile;%subplot(4, 1, 4)
 plot(t1:t2, BPE/BPE(1)*100);
 ylabel('BPE(t)/BPE(1) (%)');
+xlabel('t');
 
-print(['../../04_Output/01_Sort_Hill/mass_dev_', filtname, '.png'], '-dpng');
+print('rhob_plot.png', '-dpng');
