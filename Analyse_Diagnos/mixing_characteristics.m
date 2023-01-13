@@ -35,7 +35,6 @@ fprintf('Nz in pycnocline: %i2 \n', n_pyc_zcoords);
 fprintf('Average Dz in pycnocline: %4.4f m \n', d_pyc_zcoords);
 fprintf('L_pyc / Dx: %4.4f \n', n_pyc_xcoords);
 
-
 %% Schmidt Number
 Sc = params.visco / params.kappa_rho;
 
@@ -56,6 +55,7 @@ filtalpha = params.f_strength;
 filtbeta = params.f_order;
 f_cutoff = params.f_cutoff; 
 knyq = max(abs(ks));
+k_ny = (pi/params.Lx)*(params.Nx-1);
 
 dummy = ones(size(ks));
 if filtalpha>0
@@ -71,5 +71,6 @@ else
     myfiltu = dummy.*(abs(ks)<kcut)+exp(-filtalpha*(((abs(ks)-kcut)/(knyq-kcut)).^filtbeta)).*(abs(ks)>=kcut);    
     title('Indicative Hyperviscosity')
 end
+
 plot(ks, myfiltu, 'b.')
 print('filter_representation.png', '-dpng');
