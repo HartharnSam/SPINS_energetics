@@ -2,7 +2,11 @@ This set of scripts is to help the user interrogate and analyse the energetics-r
 
 There are two toolboxes:
 - Offline\_Sorting : This is to calculate the BPE, PE, KE, APE, etc offline using the output data. It implements a Winters et al (1995)-like sorting algorithm for a mapped case in SPINS, and helps the user analyse these
-- Analyse\_Diagnos : This is an addition to the existing plot\_diagnos (part of SPINSmatlab). Instead, it reduces the temporal frequency consistently onto a regularly spaced grid across all outputs, and implements a different filter onto BPE which works for any size array. 
+- Analyse\_Diagnos : 
 
 Author: Sam Hartharn-Evans, 2022
 
+## Analyse\_Diagnos - Analysis of onboard SPINS diagnostics:
+### 
+(`calc_energetics`)[./Analyse_Diagnos/calc_energetics.m]
+This is an addition to the existing plot\_diagnos (part of SPINSmatlab). Instead, it reduces the temporal frequency consistently onto a regularly spaced grid across all outputs, and implements a different filter onto BPE which works for any size array. 
