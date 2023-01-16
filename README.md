@@ -43,8 +43,8 @@ mapped case to calculate BPE for a mapped grid (based off sorted stratification 
 ### Check Rho b Hovmoller
 [`check_rhob_hovmoller`](./Offline_Sorting/check_rhob_hovmoller.m) plots diagnostics related to the sorting algorithm
 ![SortingDiagnostics](./Offline_Sorting/rhob_plot.png)
-- a) Reference density profile ($\rho_b$) hovmoller
-- b) Change in reference density profile ($\rho_b - \rho_b(0)$) hovmoller
+- a) Reference density profile ( $\rho_b$ ) hovmoller
+- b) Change in reference density profile ( $\rho_b - \rho_b(0)$ ) hovmoller
 - c) Mass deviation timeseries
 - d) Change in BPE over time
 
