@@ -18,7 +18,7 @@ Author: Sam Hartharn-Evans, 2022
 [`mixing_characteristics`](./Analyse_Diagnos/mixing_characteristics.m) calculates some characteristics which are
  relevant to mixing:
  - Pycnocline thickness, Nz in pycnocline, Dz in pycnocline, $L_{pyc}/Dx$
- - $ Sc = \nu/\kappa_{\rho}$ : Schmidt number, indicating momentum diffusivity over molecular diffusivity
+ - $Sc = \nu/\kappa_{\rho}$ : Schmidt number, indicating momentum diffusivity over molecular diffusivity
  - Characterises the SPINS filter (exponential or hyperviscosity), assuming $k_{nyquist} = \frac{\pi}{Lx}(Nx-1)$
 
 ## Offline Sorting - a MATLAB implementation of the sorting algorithm \& checks for it's validity
