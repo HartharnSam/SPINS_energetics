@@ -1,8 +1,9 @@
+## SPINS_ENERGETICS
 This set of scripts is to help the user interrogate and analyse the energetics-related outputs from SPINS. 
 
 There are two toolboxes:
-- Offline\_Sorting : This is to calculate the BPE, PE, KE, APE, etc offline using the output data. It implements a Winters et al (1995)-like sorting algorithm for a mapped case in SPINS, and helps the user analyse these
-- Analyse\_Diagnos : 
+- Offline\_Sorting : a MATLAB implementation of the sorting algorithm \& checks for it's validity
+- Analyse\_Diagnos : Analysis of onboard SPINS diagnostics
 
 Author: Sam Hartharn-Evans, 2022
 
@@ -20,14 +21,13 @@ Author: Sam Hartharn-Evans, 2022
  - $ Sc = \nu/\kappa_{\rho}$ : Schmidt number, indicating momentum diffusivity over molecular diffusivity
  - Characterises the SPINS filter (exponential or hyperviscosity), assuming $k_{nyquist} = \frac{\pi}{Lx}(Nx-1)$
 
-
 ## Offline Sorting - a MATLAB implementation of the sorting algorithm \& checks for it's validity
 ### Sort Energetics
 [`sort_energetics.m`](./Offline_Sorting/sort_energetics.m) employs the Winters (1995)-like sorting algorithm for a
-mapped case to calculate BPE for a mapped grid (based off sorted stratification across the entire domain, $\rho_b$), calculates PE, and $APE =  & BPE, and then also calculates KE and packages into a structure:
-- $APE = 9.81 \sum_{j=1}^{Nx} \sum_{i=1}^{Nz} W^{i, j} (\rho^{i, j} - \rho_{b}^{i, j})z^{i, j}$
-- $BPE = 9.81 \sum_{j=1}^{Nx} \sum_{i=1}^{Nz} W^{i, j} \rho_{b}^{i, j}z^{i, j}$
-- $PE = 9.81 \sum_{j=1}^{Nx} \sum_{i=1}^{Nz} W^{i, j} (\rho^{i, j})z^{i, j}$
+mapped case to calculate BPE for a mapped grid (based off sorted stratification across the entire domain, $\rho_b$), calculates PE, and APE & BPE, and then also calculates KE and packages into a structure:
+ $$APE = 9.81 \sum_{j=1}^{Nx} \sum_{i=1}^{Nz} W^{i, j} (\rho^{i, j} - \rho_{b}^{i, j})z^{i, j}$$
+ $$BPE = 9.81 \sum_{j=1}^{Nx} \sum_{i=1}^{Nz} W^{i, j} \rho_{b}^{i, j}z^{i, j}$$
+ $$PE = 9.81 \sum_{j=1}^{Nx} \sum_{i=1}^{Nz} W^{i, j} (\rho^{i, j})z^{i, j}$$
 
 ### Run sort energetics
 [`run_sort_energetics.m`](./Offline_Sorting/run_sort_energetics.m) calculates and saves the output of sort\_energetics for each timestep.
@@ -35,7 +35,17 @@ mapped case to calculate BPE for a mapped grid (based off sorted stratification 
 ### Plot offline energetics
 [`plot_offline_energetics.m`](./Offline_Sorting/plot_offline_energetics.m) plots timeseries of each energetic component, and can optionally compare these to all_diagnos.mat produced from plot_diagnos.m:
 
-![offline_energetics1](./Offline_Sorting/offline_energetics1.png)
+![<img width="15px"/>](./Offline_Sorting/offline_energetics1.png)
 ![offline_energetics2](./Offline_Sorting/offline_energetics2.png)
 
 
+
+### Check Rho b Hovmoller
+[`check_rhob_hovmoller`](./Offline_Sorting/check_rhob_hovmoller.m) plots diagnostics related to the sorting algorithm
+![SortingDiagnostics](./Offline_Sorting/rhob_plot.png)
+- a) Reference density profile ($\rho_b$) hovmoller
+- b) Change in reference density profile ($\rho_b - \rho_b(0)$) hovmoller
+- c) Mass deviation timeseries
+- d) Change in BPE over time
+
+(b) is very useful to indicate if things look correct, we'll see a dipole band appear around the pycnocline, intensifying through the timeseries. (c) indicates if things look very wrong, for example if the mass suddenly ramps up. 
