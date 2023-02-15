@@ -40,7 +40,7 @@ nexttile;
 pcolor(t1:t2, z(1, :), rhob'); shading flat; c = colorbar; ylabel(c, 'rhob');
 axis tight; box on;
 xlabel('t'); ylabel('z (m)');
-
+  
 % Plot BPE-BPE(1) hovmoller
 nexttile;
 pcolor(t1:t2, z(1, :), (rhob-rhob(1, :))'); shading flat; c = colorbar; ylabel(c, 'rhob-rhob(1)');
